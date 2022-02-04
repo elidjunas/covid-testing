@@ -8,6 +8,7 @@ output: html_document
 <style type="text/css">
   body{
   font-size: 16pt;
+  color: black; 
 }
 </style>
 

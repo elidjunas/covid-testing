@@ -5,6 +5,12 @@ date: "04/02/2022"
 output: html_document
 ---
 
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+
 ```{r setup, echo=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```

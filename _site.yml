@@ -1,8 +1,8 @@
-name: "Eli's portfolio"
+name: "COVID Testing Project"
 output_dir: 'docs'
 output:
   html_document:
-    theme: spacelab
+    css: boostrap.css
     highlight: zenburn
     toc: true
     toc_depth: 2

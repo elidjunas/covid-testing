@@ -7,7 +7,7 @@ output: html_document
 
 <style type="text/css">
   body{
-  font-size: 20pt;
+  font-size: 14pt;
 }
 </style>
 

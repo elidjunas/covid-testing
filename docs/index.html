@@ -474,7 +474,7 @@ div.tocify {
 <p>When attempting to minimize adverse health outcomes caused by infectious diseases, testing is an essential tool. Not only does it facilitate the successful treatment of individuals by identifying diseases in their early stages before symptoms and complications arise, it also augments secondary disease prevention by reducing transmission. Ideally, with timely and reliable identification of those who have contracted a disease, their ability to pass the disease on to others can be reduced via measures such as masking, social distancing and, by extension, isolation. Reduced transmission subsequently eases the pressure on hospitals, which struggle with high patient volumes and (at times) staff shortages during pandemics. Moreover, as mentioned above, expansive testing and early detection of diseases also lighten the burden on medical staff and resources by enabling early treatment of the disease. Finally, on a larger scale, governments and other public health organizations benefit from comprehensive testing regimes because they provide data that guides the efficient allocation of limited resources such as medical equipment.</p>
 <p>For the reasons outlined above, public health experts agree that testing is a crucial element of infectious disease control. However, while expansive testing is a necessary component of containing outbreaks, it is also insufficient. Rigorous testing alone does not prevent disease transmission, hospitalizations, and deaths. For one, the tests themselves must be valid in terms of their actual ability to accurately distinguish those who have a specific disease from those who do not. Moreover, the insights derived from testing data must be paired with other public health measures in order to reduce the burden of disease. For example, widespread testing may reveal a measles outbreak in a community, but the outbreak will continue to worsen in the absence of subsequent interventions such as immunizations or social distancing. The burden placed on that community’s health system will also intensify if resources and staff are not allocated in such a way that meets the increased demand for health services.</p>
 <p>The ongoing COVID-19 pandemic has laid bare the immense challenges of effectively responding to a global infectious disease outbreak. Since emerging in human populations at the end of 2019, the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) virus has led to many millions of deaths, hospitalizations, and other adverse health outcomes worldwide. Health systems have been strained like never before. National responses to the pandemic have varied widely and, subsequently, countries around the world have experienced notably different health outcomes stemming from the outbreak.</p>
-<p>This project aims to examine various countries’ COVID-19 death and hospitalization numbers relative to the number of COVID-19 tests conducted. The dataset utilized for analysis, which compiles extensive health data from a number of official sources worldwide, is provided by the website Our World in Data (OWID) in the following link: <a href="https://github.com/owid/covid-19-data/blob/master/public/data/README.md" class="uri">https://github.com/owid/covid-19-data/blob/master/public/data/README.md</a>. Specifically, I use this dataset to evaluate whether testing rates (standardized per 100,000 people) are negatively associated with hospitalizations and deaths (also standardized per 100,000 people), as would be expected by public health experts. In other words, did countries with higher testing rates exhibit lower rates of hospitalizations and deaths than other countries with lower testing rates? Though case numbers are also provided in the dataset, transmission outcomes are not measured in the analysis because case numbers are highly dependent on case detection rates (i.e., the number of detected cases relative to the total number of estimated cases in a population), which vary widely between countries and are very difficult to determine with accuracy.</p>
+<p>This project aims to examine various countries’ COVID-19 death and hospitalization numbers relative to the number of COVID-19 tests conducted. The dataset utilized for analysis, which compiles extensive health data from a number of official sources worldwide, is provided by the website Our World in Data (OWID) in the following link: <a href="https://github.com/owid/covid-19-data/blob/master/public/data/README.md" class="uri">https://github.com/owid/covid-19-data/blob/master/public/data/README.md</a>. Specifically, I use this dataset to evaluate whether testing rates (standardized per 100,000 people) are negatively associated with hospitalizations and deaths (also standardized per 100,000 people), as would be expected by public health experts. In other words, did countries with higher testing rates exhibit lower rates of hospitalizations and deaths than other countries with lower testing rates? Though case numbers are also provided in the dataset, transmission outcomes are not measured in the analysis because case numbers are highly dependent on case detection rates (i.e., the number of detected cases relative to the total number of estimated cases in a population), which vary widely between countries and are very difficult to determine with accuracy. <br><br></p>
 </div>
 <div id="cleaning-and-transforming-the-data" class="section level2">
 <h2><strong>Cleaning and transforming the data</strong></h2>
@@ -555,7 +555,7 @@ div.tocify {
 ## $ excess_mortality_cumulative                &lt;dbl&gt; NA, NA, NA, NA, NA, NA…
 ## $ excess_mortality                           &lt;dbl&gt; NA, NA, NA, NA, NA, NA…
 ## $ excess_mortality_cumulative_per_million    &lt;dbl&gt; NA, NA, NA, NA, NA, NA…</code></pre>
-<p>As you can see, the dataset supplies many informative indicators of health outcomes related to the COVID-19 outbreak; in total, there are 67 variables measured in 153,393 observations. For the purposes of answering this project’s question of whether increased testing is associated with lower death and hospitalization rates, only a handful of the 67 variables are necessary.</p>
+<p>As you can see, the dataset supplies many informative indicators of health outcomes related to the COVID-19 outbreak; in total, there are 67 variables measured in 153,393 observations. For the purposes of answering this project’s question of whether increased testing is associated with lower death and hospitalization rates, only a handful of the 67 variables are necessary. <br><br></p>
 </div>
 <div id="selecting-for-relevant-data" class="section level3">
 <h3><em>Selecting for relevant data</em></h3>
@@ -583,7 +583,7 @@ div.tocify {
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(testing_population_numbers_df<span class="sc">$</span>unique_population_numbers) </span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#confirms there is only 1 unique population value for each country in the dataset </span></span></code></pre></div>
-<p>The code confirms that each country’s population is held constant throughout the dataset, so we move on to next steps.</p>
+<p>The code confirms that each country’s population is held constant throughout the dataset, so we move on to next steps. <br><br></p>
 </div>
 <div id="making-column-names-more-informative" class="section level3">
 <h3><em>Making column names more informative</em></h3>
@@ -626,7 +626,7 @@ div.tocify {
 ## $ tests_total            &lt;dbl&gt; -Inf, -Inf, 737014, -Inf, 275127, -Inf, -I…
 ## $ deaths_total           &lt;dbl&gt; 7373, 230874, 3240, 6339, 141, 1826, 6, 12…
 ## $ hospitalizations_total &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
-<p>As you can see in this preview of the new <code>country_summaries_df</code> dataframe, the data needs to be cleaned further in preparation for statistical analyses.</p>
+<p>As you can see in this preview of the new <code>country_summaries_df</code> dataframe, the data needs to be cleaned further in preparation for statistical analyses.<br><br></p>
 </div>
 <div id="removing-data-that-does-not-fit" class="section level3">
 <h3><em>Removing data that does not fit</em></h3>
@@ -787,7 +787,7 @@ div.tocify {
 ## $ tests_total            &lt;dbl&gt; 737014, 275127, 16700, 29303102, 2594856, …
 ## $ deaths_total           &lt;dbl&gt; 3240, 141, 120, 117492, 8001, 2387, 13848,…
 ## $ hospitalizations_total &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 679440…</code></pre>
-<p>Now all countries in the <code>country_summaries_df</code> dataframe have testing data to work with.</p>
+<p>Now all countries in the <code>country_summaries_df</code> dataframe have testing data to work with. <br><br></p>
 </div>
 <div id="checking-for-countries-with-no-hospitalizations-and-deaths-data" class="section level3">
 <h3><em>Checking for countries with no hospitalizations and deaths data</em></h3>
@@ -795,7 +795,7 @@ div.tocify {
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(country_summaries_df<span class="sc">$</span>deaths_total <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>        country_summaries_df<span class="sc">$</span>hospitalizations_total <span class="sc">==</span> <span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## integer(0)</code></pre>
-<p>The code output reveals that there are no such countries remaining in the country_summaries_df dataframe that report zero hospitalizations and zero deaths. Therefore, we can now move on to our statistical analyses.</p>
+<p>The code output reveals that there are no such countries remaining in the country_summaries_df dataframe that report zero hospitalizations and zero deaths. Therefore, we can now move on to our statistical analyses.<br><br></p>
 </div>
 <div id="calculating-relevant-figures" class="section level3">
 <h3><em>Calculating relevant figures</em></h3>
@@ -834,7 +834,7 @@ div.tocify {
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> comma) <span class="sc">+</span> </span>
 <span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> comma, <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">12500</span>))</span></code></pre></div>
 <p><img src="index_files/figure-html/data_visualisation-1.png" width="672" /></p>
-<p>The plot does not show any discernible association between test rates and hospitalization rates. To drive this home further, we try fitting a best fit linear regression line to the plot to see how well such a model would fit the data:</p>
+<p>The plot does not show any discernible association between test rates and hospitalization rates. To drive this home further, we try fitting a best fit linear regression line to the plot to see how well such a model would fit the data: <br><br></p>
 </div>
 <div id="linear-regression-modelling-of-hospitalizations-versus-tests" class="section level3">
 <h3><em>Linear regression modelling of hospitalizations versus tests</em></h3>
@@ -873,11 +873,11 @@ div.tocify {
 ## Residual standard error: 3322 on 24 degrees of freedom
 ## Multiple R-squared:  0.01214,    Adjusted R-squared:  -0.02902 
 ## F-statistic: 0.2949 on 1 and 24 DF,  p-value: 0.5921</code></pre>
-<p>The p-value (listed as Pr(&gt;|t|)) is interpreted as the probability that the calculated coefficient for the tests_per_100k variable could be derived in a random sample if the null hypothesis — which states that there is no linear relationship between test rates and death rates — was true. The fact that the p-value is 0.59, much greater than the standard criteria of p&lt;0.05 for declaring findings significant, leads us to accept the null hypothesis. Moreover, the multiple R-square value of 0.01 means that only 1% of the variation in hospitalization rates can be accounted for in the linear regression model; the remaining 99% of the variation may be caused by a multitude of other factors.</p>
+<p>The p-value (listed as Pr(&gt;|t|)) is interpreted as the probability that the calculated coefficient for the tests_per_100k variable could be derived in a random sample if the null hypothesis — which states that there is no linear relationship between test rates and death rates — was true. The fact that the p-value is 0.59, much greater than the standard criteria of p&lt;0.05 for declaring findings significant, leads us to accept the null hypothesis. Moreover, the multiple R-square value of 0.01 means that only 1% of the variation in hospitalization rates can be accounted for in the linear regression model; the remaining 99% of the variation may be caused by a multitude of other factors. <br><br></p>
 </div>
 <div id="interpreting-the-statistical-analysis-results" class="section level3">
 <h3><em>Interpreting the statistical analysis results</em></h3>
-<p>Consequently, the data does not support the idea that higher test rates are associated with lower hospitalization rates. In fact, there doesn’t appear to be any observable relationship between the two variables at all. We could try fitting other types of models to the data such as polynomial models or nonlinear models but, when looking at the actual data distribution, it is fairly clear that testing rates are not a good predictor of hospitalization rates. Furthermore, we have no reason to expect the relationship between the two variables to be anything but linear. The possible implications of this finding are discussed below, but first we must also take a look at the data on test rates versus death rates:</p>
+<p>Consequently, the data does not support the idea that higher test rates are associated with lower hospitalization rates. In fact, there doesn’t appear to be any observable relationship between the two variables at all. We could try fitting other types of models to the data such as polynomial models or nonlinear models but, when looking at the actual data distribution, it is fairly clear that testing rates are not a good predictor of hospitalization rates. Furthermore, we have no reason to expect the relationship between the two variables to be anything but linear. The possible implications of this finding are discussed below, but first we must also take a look at the data on test rates versus death rates: <br><br></p>
 </div>
 <div id="data-visualisation-of-deaths-versus-tests" class="section level3">
 <h3><em>Data visualisation of deaths versus tests</em></h3>
@@ -930,7 +930,7 @@ div.tocify {
 ## Residual standard error: 116.7 on 133 degrees of freedom
 ## Multiple R-squared:  0.002814,   Adjusted R-squared:  -0.004684 
 ## F-statistic: 0.3753 on 1 and 133 DF,  p-value: 0.5412</code></pre>
-<p>Yet again, the p-value of the regression coefficient for the tests_per_100k variable as well as the multiple R-squared value confirm that the null hypothesis is true: there is no linear relationship between test rates and death rates.</p>
+<p>Yet again, the p-value of the regression coefficient for the tests_per_100k variable as well as the multiple R-squared value confirm that the null hypothesis is true: there is no linear relationship between test rates and death rates. <br><br></p>
 </div>
 </div>
 <div id="conclusions" class="section level2">

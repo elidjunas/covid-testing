@@ -23,9 +23,9 @@ For the reasons outlined above, public health experts agree that testing is a cr
 
 The ongoing COVID-19 pandemic has laid bare the immense challenges of effectively responding to a global infectious disease outbreak. Since emerging in human populations at the end of 2019, the severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) virus has led to many millions of deaths, hospitalizations, and other adverse health outcomes worldwide. Health systems have been strained like never before. National responses to the pandemic have varied widely and, subsequently, countries around the world have experienced notably different health outcomes stemming from the outbreak.    
 
-This project aims to examine various countries' COVID-19 death and hospitalization numbers relative to the number of COVID-19 tests conducted. The dataset utilized for analysis, which compiles extensive health data from a number of official sources worldwide, is provided by the website Our World in Data (OWID) in the following link: <https://github.com/owid/covid-19-data/blob/master/public/data/README.md>. Specifically, I use this dataset to evaluate whether testing rates (standardized per 100,000 people) are negatively associated with hospitalizations and deaths (also standardized per 100,000 people), as would be expected by public health experts. In other words, did countries with higher testing rates exhibit lower rates of hospitalizations and deaths than other countries with lower testing rates? Though case numbers are also provided in the dataset, transmission outcomes are not measured in the analysis because case numbers are highly dependent on case detection rates (i.e., the number of detected cases relative to the total number of estimated cases in a population), which vary widely between countries and are very difficult to determine with accuracy. 
+This project aims to examine various countries' COVID-19 death and hospitalization numbers relative to the number of COVID-19 tests conducted. The dataset utilized for analysis, which compiles extensive health data from a number of official sources worldwide, is provided by the website Our World in Data (OWID) in the following link: <https://github.com/owid/covid-19-data/blob/master/public/data/README.md>. Specifically, I use this dataset to evaluate whether testing rates (standardized per 100,000 people) are negatively associated with hospitalizations and deaths (also standardized per 100,000 people), as would be expected by public health experts. In other words, did countries with higher testing rates exhibit lower rates of hospitalizations and deaths than other countries with lower testing rates? Though case numbers are also provided in the dataset, transmission outcomes are not measured in the analysis because case numbers are highly dependent on case detection rates (i.e., the number of detected cases relative to the total number of estimated cases in a population), which vary widely between countries and are very difficult to determine with accuracy. <br><br>
 
-## **Cleaning and transforming the data**
+## **Cleaning and transforming the data** 
 ### *"Glimpsing" the data* 
 After importing OWID's dataset into R, the `glimpse()` function summarizes the names and types of the information provided in each column as well as the dataset's dimensions (i.e., the number of rows and columns). 
 
@@ -36,7 +36,7 @@ library(dplyr)
 covid_df <- read.csv("owid-covid-data.csv")
 glimpse(covid_df)
 ```
-As you can see, the dataset supplies many informative indicators of health outcomes related to the COVID-19 outbreak; in total, there are 67 variables measured in 153,393 observations. For the purposes of answering this project's question of whether increased testing is associated with lower death and hospitalization rates, only a handful of the 67 variables are necessary.
+As you can see, the dataset supplies many informative indicators of health outcomes related to the COVID-19 outbreak; in total, there are 67 variables measured in 153,393 observations. For the purposes of answering this project's question of whether increased testing is associated with lower death and hospitalization rates, only a handful of the 67 variables are necessary. <br><br>
 
 ### *Selecting for relevant data*
 Therefore, a new dataframe is created that only selects for the relevant columns in the original `covid_df` dataset: country (`location`), date of the recorded data (`date`), total tests completed up to that point in time (`total_tests`), weekly hospital admissions (`weekly_hosp_admissions`), total deaths recorded up to that point in time (`total_deaths`), and population size (`population`). 
@@ -56,7 +56,7 @@ glimpse(testing_population_numbers_df)
 unique(testing_population_numbers_df$unique_population_numbers) 
 #confirms there is only 1 unique population value for each country in the dataset 
 ```
-The code confirms that each country's population is held constant throughout the dataset, so we move on to next steps. 
+The code confirms that each country's population is held constant throughout the dataset, so we move on to next steps. <br><br>
 
 ### *Making column names more informative*
 To make our modified dataframe easier to interpret, we proceed to change the name of the `location` column to `country` in `covid_select_df`. 
@@ -86,7 +86,7 @@ country_summaries_df <- covid_select_df %>%
             #na.rm = TRUE removes missing data points 
 glimpse(country_summaries_df)
 ```
-As you can see in this preview of the new `country_summaries_df` dataframe, the data needs to be cleaned further in preparation for statistical analyses.
+As you can see in this preview of the new `country_summaries_df` dataframe, the data needs to be cleaned further in preparation for statistical analyses.<br><br>
 
 ### *Removing data that does not fit*
 First, looking at the values listed in the `country` column, it appears that some of the countries are, in fact, continents. This research is interested in examining the possible associations between testing rates and death and hospitalization rates at the country level, though, not at the continent level. Thus, we want to remove the observations that provide data on the continent level. We do this by first reviewing all of the unique values listed in the `country` column using the `unique()` function: 
@@ -95,7 +95,7 @@ unique(country_summaries_df$country)
 # the 238 levels listed at the bottom of the output refer to the original number of 
 # unique countries with observations in the dataset
 ```
-Looking at this list of unique countries that are listed in the dataset, we can see that five five are continents: Africa, North America, South America, Asia, Europe, and Australia. Fortunately, Australia is also its own country, so we do not need to remove its data, but we will need to remove the data for the other 5 continents. We do so using the `subset()` function:
+Looking at this list of unique countries that are listed in the dataset, we can see that five are actually continents: Africa, North America, South America, Asia, Europe, and Australia. Fortunately, Australia is also its own country, so we do not need to remove its data, but we will need to remove the data for the other 5 continents. We do so using the `subset()` function:
 
 ``` {r subsetting_countries}
 country_summaries_df <- country_summaries_df %>%
@@ -116,7 +116,7 @@ country_summaries_df <- country_summaries_df %>%
   filter(tests_total != -Inf)
 glimpse(country_summaries_df)
 ```
-Now all countries in the `country_summaries_df` dataframe have testing data to work with. 
+Now all countries in the `country_summaries_df` dataframe have testing data to work with. <br><br>
 
 ### *Checking for countries with no hospitalizations and deaths data* 
 However, several of the countries remaining in the dataframe have values of 0 in the `hospitalizations_total` column. We will have to remove those countries from analysis of the possible association between testing rates and hospitalizations. We must be careful, though, not to remove those countries necessarily from the analysis of the possible association between testing rates and deaths, as some of the countries with zero hospitalizations could still report deaths. The only remaining countries which we can safely remove from the prospective analysis with good reason are those, if any, that have reported zero hospitalizations and zero deaths. We search for countries that fit this criteria using the `which()` function: 
@@ -125,7 +125,7 @@ However, several of the countries remaining in the dataframe have values of 0 in
 which(country_summaries_df$deaths_total == 0 & 
         country_summaries_df$hospitalizations_total == 0)
 ```
-The code output reveals that there are no such countries remaining in the country_summaries_df dataframe that report zero hospitalizations and zero deaths. Therefore, we can now move on to our statistical analyses. 
+The code output reveals that there are no such countries remaining in the country_summaries_df dataframe that report zero hospitalizations and zero deaths. Therefore, we can now move on to our statistical analyses.<br><br> 
 
 ### *Calculating relevant figures* 
 The last step in preparing for statistical analyses is to transform the existing dataframe by calculating new values to reflect testing, hospitalization, and death rates standardised for population size. In other words, to answer our research questions of whether increased testing is associated with lower deaths and hospitalizations, we must take into account the fact that the various countries examined in the dataset have population sizes which range widely. Therefore, to establish figures that allow for relevant comparisons between countries, we will standardise tests, hospitalizations, and deaths per 100,000 people, which is common practice in the public health field. Additionally, we will create two separate dataframes from the original `country_summaries_df` dataframe so that, in the analysis of each outcome variable (hospitalizations and deaths), those countries who reported *either* zero hospitalizations *or* zero deaths can be removed while not affecting the country's inclusion in the analysis of the other outcome variable, which we know does not measure as zero because we've just confirmed that no remaining countries report zero hospitalizations *and* zero deaths. 
@@ -156,7 +156,7 @@ library(scales)
 ggplot(data = hospitalizations_tests_df, 
        mapping = aes(x = tests_per_100k, y = hospitalizations_per_100k)) +
   geom_point() +
-  labs(x = "COVID 19 tests conducted per 100,000 people", 
+  labs(x = "COVID-19 tests conducted per 100,000 people", 
        y = "Hospitalizations per 100,000 people", 
        title = "COVID-19 Hospitalization vs. Test Rates ") +
   theme(text = element_text(size = 10)) +
@@ -167,14 +167,14 @@ ggplot(data = hospitalizations_tests_df,
 
 ```
 
-The plot does not show any discernible association between test rates and hospitalization rates. To drive this home further, we try fitting a best fit linear regression line to the plot to see how well such a model would fit the data: 
+The plot does not show any discernible association between test rates and hospitalization rates. To drive this home further, we try fitting a best fit linear regression line to the plot to see how well such a model would fit the data: <br><br>
 
 ### *Linear regression modelling of hospitalizations versus tests*
 ``` {r linear_regression_fit}
 ggplot(data = hospitalizations_tests_df, 
        mapping = aes(x = tests_per_100k, y = hospitalizations_per_100k)) +
   geom_point() +
-  labs(x = "COVID 19 tests conducted per 100,000 people", 
+  labs(x = "COVID-19 tests conducted per 100,000 people", 
        y = "Hospitalizations per 100,000 people", 
        title = "COVID-19 Hospitalization vs. Test Rates ") +
   theme(text = element_text(size = 10)) +
@@ -192,10 +192,10 @@ hospitalizations_lm <- lm(hospitalizations_per_100k ~
                             tests_per_100k, data = hospitalizations_tests_df)
 summary(hospitalizations_lm)
 ```
-The p-value (listed as Pr(>|t|)) is interpreted as the probability that the calculated coefficient for the tests_per_100k variable could be derived in a random sample if the null hypothesis — which states that there is no linear relationship between test rates and death rates — was true. The fact that the p-value is 0.59, much greater than the standard criteria of p<0.05 for declaring findings significant, leads us to accept the null hypothesis. Moreover, the multiple R-square value of 0.01 means that only 1% of the variation in hospitalization rates can be accounted for in the linear regression model; the remaining 99% of the variation may be caused by a multitude of other factors. 
+The p-value (listed as Pr(>|t|)) is interpreted as the probability that the calculated coefficient for the tests_per_100k variable could be derived in a random sample if the null hypothesis — which states that there is no linear relationship between test rates and death rates — was true. The fact that the p-value is 0.59, much greater than the standard criteria of p<0.05 for declaring findings significant, leads us to accept the null hypothesis. Moreover, the multiple R-square value of 0.01 means that only 1% of the variation in hospitalization rates can be accounted for in the linear regression model; the remaining 99% of the variation may be caused by a multitude of other factors. <br><br>
 
 ### *Interpreting the statistical analysis results* 
-Consequently, the data does not support the idea that higher test rates are associated with lower hospitalization rates. In fact, there doesn't appear to be any observable relationship between the two variables at all. We could try fitting other types of models to the data such as polynomial models or nonlinear models but, when looking at the actual data distribution, it is fairly clear that testing rates are not a good predictor of hospitalization rates. Furthermore, we have no reason to expect the relationship between the two variables to be anything but linear. The possible implications of this finding are discussed below, but first we must also take a look at the data on test rates versus death rates: 
+Consequently, the data does not support the idea that higher test rates are associated with lower hospitalization rates. In fact, there doesn't appear to be any observable relationship between the two variables at all. We could try fitting other types of models to the data such as polynomial models or nonlinear models but, when looking at the actual data distribution, it is fairly clear that testing rates are not a good predictor of hospitalization rates. Furthermore, we have no reason to expect the relationship between the two variables to be anything but linear. The possible implications of this finding are discussed below, but first we must also take a look at the data on test rates versus death rates: <br><br>
 
 ### *Data visualisation of deaths versus tests* 
 
@@ -238,7 +238,7 @@ The statistical results of the linear regression modelling also confirm our obse
 deaths_lm <- lm(deaths_per_100k ~ tests_per_100k, data = deaths_tests_df)
 summary(deaths_lm)
 ```
-Yet again, the p-value of the regression coefficient for the tests_per_100k variable as well as the multiple R-squared value confirm that the null hypothesis is true: there is no linear relationship between test rates and death rates. 
+Yet again, the p-value of the regression coefficient for the tests_per_100k variable as well as the multiple R-squared value confirm that the null hypothesis is true: there is no linear relationship between test rates and death rates. <br><br>
 
 ## **Conclusions**    
 

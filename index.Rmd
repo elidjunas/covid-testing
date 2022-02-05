@@ -17,7 +17,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
 ## **Introduction**
-
 When attempting to minimize adverse health outcomes caused by infectious diseases, testing is an essential tool. Not only does it facilitate the successful treatment of individuals by identifying diseases in their early stages before symptoms and complications arise, it also augments secondary disease prevention by reducing transmission. Ideally, with timely and reliable identification of those who have contracted a disease, their ability to pass the disease on to others can be reduced via measures such as masking, social distancing and, by extension, isolation. Reduced transmission subsequently eases the pressure on hospitals, which struggle with high patient volumes and (at times) staff shortages during pandemics. Moreover, as mentioned above, expansive testing and early detection of diseases also lighten the burden on medical staff and resources by enabling early treatment of the disease. Finally, on a larger scale, governments and other public health organizations benefit from comprehensive testing regimes because they provide data that guides the efficient allocation of limited resources such as medical equipment. 
 
 For the reasons outlined above, public health experts agree that testing is a crucial element of infectious disease control. However, while expansive testing is a necessary component of containing outbreaks, it is also insufficient. Rigorous testing alone does not prevent disease transmission, hospitalizations, and deaths. For one, the tests themselves must be valid in terms of their actual ability to accurately distinguish those who have a specific disease from those who do not. Moreover, the insights derived from testing data must be paired with other public health measures in order to reduce the burden of disease. For example, widespread testing may reveal a measles outbreak in a community, but the outbreak will continue to worsen in the absence of subsequent interventions such as immunizations or social distancing. The burden placed on that community's health system will also intensify if resources and staff are not allocated in such a way that meets the increased demand for health services. 
@@ -27,7 +26,6 @@ The ongoing COVID-19 pandemic has laid bare the immense challenges of effectivel
 This project aims to examine various countries' COVID-19 death and hospitalization numbers relative to the number of COVID-19 tests conducted. The dataset utilized for analysis, which compiles extensive health data from a number of official sources worldwide, is provided by the website Our World in Data (OWID) in the following link: <https://github.com/owid/covid-19-data/blob/master/public/data/README.md>. Specifically, I use this dataset to evaluate whether testing rates (standardized per 100,000 people) are negatively associated with hospitalizations and deaths (also standardized per 100,000 people), as would be expected by public health experts. In other words, did countries with higher testing rates exhibit lower rates of hospitalizations and deaths than other countries with lower testing rates? Though case numbers are also provided in the dataset, transmission outcomes are not measured in the analysis because case numbers are highly dependent on case detection rates (i.e., the number of detected cases relative to the total number of estimated cases in a population), which vary widely between countries and are very difficult to determine with accuracy. 
 
 ## **Cleaning and transforming the data**
-
 ### *"Glimpsing" the data* 
 After importing OWID's dataset into R, the `glimpse()` function summarizes the names and types of the information provided in each column as well as the dataset's dimensions (i.e., the number of rows and columns). 
 
@@ -67,6 +65,7 @@ To make our modified dataframe easier to interpret, we proceed to change the nam
 names(covid_select_df)[names(covid_select_df) == "location"] <- "country"
 glimpse(covid_select_df)
 ```
+
 ### *Summarising the data* 
 Now we move on to transforming the data in such a way that enables us to perform the statistical analyses necessary to answer our research question. Once again, we turn to the `group_by()` function, and then we use the `summarise` function to calculate new values based on the data in `covid_select_df`.
 
@@ -108,6 +107,7 @@ country_summaries_df <- country_summaries_df %>%
 glimpse(country_summaries_df)
 ```
 
+
 ### *Removing countries without testing data* 
 Next, we observe that several of the values in the `tests_total`column, which were calculated by taking the maximum value of each country's `total_tests` column in the `covid_select_df` dataframe, are listed as `-Inf`. This indicates that every single value in that country's `total_tests` column is listed as `NA`. Without any testing data provided from those countries, we must remove them from our analyses, which we can accomplish using the `filter()` function: 
 
@@ -147,7 +147,6 @@ deaths_tests_df <- country_summaries_df %>%
 ```
 
 ## **Data exploration and analyses** 
-
 ### *Data visualisation of hospitalizations versus tests* 
 For the purposes of answering our research question of whether countries with higher testing rates are associated with lower hospitalization and death rates, we will generate scatterplots to visualise the data using the `ggplot2` package in R. Then, after visualising the data, we will conduct simple linear regression modelling to test whether there is a linear relationship between the two outcome variables and test rates. First, we take a look at the plot of hospitalizations versus test rates. 
 ``` {r data_visualisation}
@@ -230,6 +229,7 @@ ggplot(data = deaths_tests_df,
   scale_y_continuous(labels = comma) + 
   geom_smooth(method = "lm")
 ```
+
 
 ### *Linear regression modelling of deaths versus tests* 
 The statistical results of the linear regression modelling also confirm our observations of the plotted data: 
